@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Рецепты категории "{{ category.name }}"</h1>
+<ul>
+    {% for recipe in recipes %}
+    <li>
+        <h2>{{ recipe.name }}</h2>
+        {% if recipe.image %}
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
+        {% endif %}
+        <p>Ингредиенты: {{ recipe.ingredients }}</p>
+        <p>Описание: {{ recipe.directions }}</p>
+        <p>Автор: {{ recipe.author }}</p>
+        <a href="{% url 'recipe_detail' recipe.id %}">Подробнее</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

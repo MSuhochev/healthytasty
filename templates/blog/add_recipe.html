@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <h2>Добавить рецепт</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+    <!-- Инициализация CKEditor для каждого текстового поля -->
+   <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        CKEDITOR.replace('id_ingredients');
+        CKEDITOR.replace('id_directions');
+    });
+</script>
+{% endblock content %}

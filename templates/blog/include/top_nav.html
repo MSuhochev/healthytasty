@@ -1,0 +1,34 @@
+{% load static %}
+{% load menu_tags %}
+<ul>
+    <li class="active"><a href="/">Главная</a></li>
+
+    <li><a href="#">Разделы сайта</a>
+        <div class="megamenu">
+            <ul class="single-mega cn-col-4">
+                <li class="title">Категории</li>
+                <li><a href="">Главная</a></li>
+                <li><a href="about.html">О проекте</a></li>
+                <li><a href="post_list">Заметки о еде</a></li>
+                <li><a href="receipe-post.html">Рецепты</a></li>
+                <li><a href="contact.html">Контакты</a></li>
+                <li><a href="elements.html">Дополнение</a></li>
+            </ul>
+            <div class="single-mega cn-col-4">
+                <div class="receipe-slider owl-carousel">
+                    <a href="#"><img src="{% static 'img/bg-img/bg1.jpg' %}" alt=""></a>
+                    <a href="#"><img src="{% static 'img/bg-img/bg6.jpg' %}" alt=""></a>
+                </div>
+            </div>
+        </div>
+    </li>
+
+    {% get_categories %}  {# Заметки, рецепты по категориям #}
+
+    {% if can_share_recipe %}
+        <li><a href="{% url 'add_recipe' %}">Поделиться рецептом</a></li>
+    {% endif %}
+
+    
+
+</ul>

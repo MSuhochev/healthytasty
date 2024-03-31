@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<!-- В случае, если пользователь аутентифицирован, перенаправляем его на другую страницу -->
+<script>window.location.href = "{% url 'index' %}";</script>
+{% else %}
+<!-- Форма входа -->
+<div class="container">
+    <div class="row h-100 align-items-center justify-content-center">
+        <div class="col-12 col-sm-6">
+            <p>Если у вас нет аккаунта - зарегистрируйтесь.</p>
+            <a class="btn btn-success" href="/accounts/register/"
+               style="background-color: #1c8314">Зарегистрироваться</a>
+        </div>
+        <div class="col-12 col-sm-6">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    {% for field in form %}
+                    <div class="form-group">
+                        {{field.label_tag}}
+                        <div>{{field}}</div>
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <!-- Если есть ошибки, отображаем их -->
+                                <div class="alert alert-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <input class="btn btn-success" type="submit" value="Войти">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock content %}

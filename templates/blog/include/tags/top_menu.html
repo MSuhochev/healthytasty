@@ -1,0 +1,35 @@
+{% load mptt_tags %}
+
+<li class="dropdown">
+    <a href="#">Заметки</a>
+        <ul class="dropdown">
+    
+            {% recursetree list_category %}
+            <li>
+                <a href="{% url 'post_list' node.slug %}">{{ node.name }}</a>
+                {% if not node.is_leaf_node %}
+                    <ul class="dropdown">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+            {% endrecursetree %}
+        </ul>
+</li>
+
+<li class="dropdown">
+    <a href="#">Рецепты</a>
+        <ul class="dropdown">
+    
+            {% recursetree list_category %}
+            <li>
+                <a href="{% url 'recipe_list' slug=node.slug %}">{{ node.name }}</a>
+                {% if not node.is_leaf_node %}
+                    <ul class="dropdown">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+            {% endrecursetree %}
+        </ul>
+</li>
