@@ -40,7 +40,7 @@
                             <a href="{{ post.get_absolute_url }}" class="post-title">{{ post.title }}</a>
                             <div class="meta-data"> Автор <a href="#"> {{ post.author }} </a> категория <a href="#"> {{ post.category }} </a>
                             </div>
-                            <p>{{ post.text|safe|slice:":250" }}...</p>
+                            <p>{{ post.text | safe | slice:":250" }}...</p>
                             <a href="#" class="btn delicious-btn mt-30">Читать далее...</a>
 
                         </div>

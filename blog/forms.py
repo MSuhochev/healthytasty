@@ -29,7 +29,7 @@ class RecipeForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    message = forms.CharField(widget=forms.Textarea)
+    message = forms.CharField(widget=forms.Textarea, label='Введите ваш комментарий')
 
     class Meta:
         model = Comment

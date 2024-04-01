@@ -3,177 +3,194 @@
 
 {% block content %}
 
-    <div class="receipe-post-area section-padding-80">
+<div class="receipe-post-area section-padding-80">
 
-        <!-- Receipe Post Search -->
-        <div class="receipe-post-search mb-80">
-            <div class="container">
-                <form action="#" method="post">
-                    <div class="row">
-                        <div class="col-12 col-lg-3">
-                            <select name="select1" id="select1">
-                                <option value="1">All Receipies Categories</option>
-                                <option value="1">All Receipies Categories 2</option>
-                                <option value="1">All Receipies Categories 3</option>
-                                <option value="1">All Receipies Categories 4</option>
-                                <option value="1">All Receipies Categories 5</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-lg-3">
-                            <select name="select1" id="select2">
-                                <option value="1">All Receipies Categories</option>
-                                <option value="1">All Receipies Categories 2</option>
-                                <option value="1">All Receipies Categories 3</option>
-                                <option value="1">All Receipies Categories 4</option>
-                                <option value="1">All Receipies Categories 5</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-lg-3">
-                            <input type="search" name="search" placeholder="Search Receipies">
-                        </div>
-                        <div class="col-12 col-lg-3 text-right">
-                            <button type="submit" class="btn delicious-btn">Search</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Receipe Slider -->
+    <!-- Receipe Post Search -->
+    <div class="receipe-post-search mb-80">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="receipe-slider owl-carousel">
-                        <img src="{% static 'img/bg-img/bg5.jpg' %}" alt="">
-                        <img src="{% static 'img/bg-img/bg-chaj_iz_shypovnika.jpg' %}" alt="">
-                        <img src="{% static 'img/bg-img/bg5.jpg' %}" alt="">
+            <form action="#" method="post">
+                <div class="row">
+                    <div class="col-12 col-lg-3">
+                        <select name="select1" id="select1">
+                            <option value="1">All Receipies Categories</option>
+                            <option value="1">All Receipies Categories 2</option>
+                            <option value="1">All Receipies Categories 3</option>
+                            <option value="1">All Receipies Categories 4</option>
+                            <option value="1">All Receipies Categories 5</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <select name="select1" id="select2">
+                            <option value="1">All Receipies Categories</option>
+                            <option value="1">All Receipies Categories 2</option>
+                            <option value="1">All Receipies Categories 3</option>
+                            <option value="1">All Receipies Categories 4</option>
+                            <option value="1">All Receipies Categories 5</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <input type="search" name="search" placeholder="Search Receipies">
+                    </div>
+                    <div class="col-12 col-lg-3 text-right">
+                        <button type="submit" class="btn delicious-btn">Search</button>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Receipe Content Area -->
-        <div class="receipe-content-area">
-            {% for recipe in post.get_recipes %}
-                <div class="container">
-
-                    <div class="row">
-                        <div class="col-12 col-md-8">
-                            <div class="receipe-headline my-5">
-                                <h5>{{ post.title }}</h5>
-
-                                <div class="receipe-duration">
-
-                                    <h6>Время подготовки: {{ recipe.prep_time }} мин.</h6>
-                                    <h6>Время приготовления: {{ recipe.cook_time }} мин.</h6>
-                                    <h6>Количество персон: {{ recipe.serves }} чел.</h6>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <div class="receipe-ratings text-right my-5">
-                                <div class="ratings">
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                                </div>
-                                <a href="#" class="btn delicious-btn">For Begginers</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-lg-8">
-                            <div class="blog-posts-area">
-                                <!-- Single Blog Area -->
-                                <div class="single-blog-area mb-80">
-                                    <!-- Thumbnail -->
-                                    <div class="single-post__title">
-                                        <div class="blog-thumbnail">
-                                            <img src="{{ post.image.url }}" alt="">
-                                            <!-- Post Date -->
-                                            <div class="post-date">
-                                                <a href="#"><span>{{ post.create_at|date:"d" }}</span>{{ post.create_at|date:"M" }}<br>{{ post.create_at|date:"Y" }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="single-post__title__text">
-                                            <ul class="label">
-                                                {% for tag in post.tags.all %}
-                                                    <a href="">{{ tag.name }}</a>
-                                                {% endfor %}
-                                            </ul>
-                                            <br>
-                                            <p>{{ post.text|safe }}</p>
-                                            <br>
-                                            <ul class="widget">
-                                                <li>Автор {{ post.author }}</li>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- Ingredients -->
-                        <div class="col-12 col-lg-4">
-                            <div class="ingredients">
-                                <h4>Ингредиенты:</h4>
-                                {{ recipe.ingredients|safe }}
-                            </div>
-                            <br>
-                            <div class="directions">
-                                <h4>Инструкция:</h4>
-                                {{ recipe.directions|safe }}
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="section-heading text-left">
-                                <h3>Leave a comment</h3>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="contact-form-area">
-                                <form action="#" method="post">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <input type="text" class="form-control" id="name" placeholder="Name">
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <input type="email" class="form-control" id="email" placeholder="E-mail">
-                                        </div>
-                                        <div class="col-12">
-                                            <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                        </div>
-                                        <div class="col-12">
-                                            <textarea name="message" class="form-control" id="message" cols="30"
-                                                      rows="10" placeholder="Message"></textarea>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn delicious-btn mt-30" type="submit">Post Comments</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+            </form>
         </div>
     </div>
+
+    <!-- Receipe Slider -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="receipe-slider owl-carousel">
+                    <img src="{% static 'img/bg-img/bg5.jpg' %}" alt="">
+                    <img src="{% static 'img/bg-img/bg-chaj_iz_shypovnika.jpg' %}" alt="">
+                    <img src="{% static 'img/bg-img/bg5.jpg' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipe Content Area -->
+    <div class="receipe-content-area">
+        {% for recipe in post.get_recipes %}
+        <div class="container">
+
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <div class="receipe-headline my-5">
+                        <h5>{{ post.title }}</h5>
+
+                        <div class="receipe-duration">
+
+                            <h6>Время подготовки: {{ recipe.prep_time }} мин.</h6>
+                            <h6>Время приготовления: {{ recipe.cook_time }} мин.</h6>
+                            <h6>Количество персон: {{ recipe.serves }} чел.</h6>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="receipe-ratings text-right my-5">
+                        <div class="ratings">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </div>
+                        <a href="#" class="btn delicious-btn">For Begginers</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <div class="blog-posts-area">
+                        <!-- Single Blog Area -->
+                        <div class="single-blog-area mb-80">
+                            <!-- Thumbnail -->
+                            <div class="single-post__title">
+                                <div class="blog-thumbnail">
+                                    <img src="{{ post.image.url }}" alt="">
+                                    <!-- Post Date -->
+                                    <div class="post-date">
+                                        <a href="#"><span>{{ post.create_at|date:"d" }}</span>
+                                            {{ post.create_at|date:"M" }}<br>{{ post.create_at|date:"Y" }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="single-post__title__text">
+                                    <ul class="label">
+                                        {% for tag in post.tags.all %}
+                                        <a href="">{{ tag.name }}</a>
+                                        {% endfor %}
+                                    </ul>
+                                    <br>
+                                    <p>{{ post.text | safe }}</p>
+                                    <br>
+                                    <ul class="widget">
+                                        <li>Автор {{ post.author }}</li>
+                                    </ul>
+                                </div>
+                                <div class="comments-section">
+                                   <!-- Комментарии -->
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="section-heading text-left">
+                                                    <h6>Комментарии:</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                {% for comment in post.post_comments.all %}
+                                                    <div class="comment">
+                                                        <p>{{ comment.message }}</p>
+                                                        <p>Автор: {{ comment.user.username }}</p>
+                                                        <p>Дата: {{ comment.create_at }}</p>
+                                                    </div>
+                                                {% empty %}
+                                                    <p>Нет комментариев для этой статьи.</p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="section-heading text-left">
+                                            <h3>Оставьте комментарий:</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div>
+                                            {% if user.is_authenticated %}
+                                            <form method="post"
+                                                  action="{% url 'add_comment_to_post' slug=post.category.slug post_slug=post.slug %}">
+
+                                                {% csrf_token %}
+                                                {{ comment_form.as_p }}
+                                                <button class="btn delicious-btn mt-30" type="submit">Отправить</button>
+                                            </form>
+                                            {% else %}
+                                            <p>Оставлять комментарии могут только авторизованные пользователи.</p>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Ingredients -->
+                <div class="col-12 col-lg-4">
+                    <div class="ingredients">
+                        <h4>Ингредиенты:</h4>
+                        {{ recipe.ingredients | safe }}
+                    </div>
+                    <br>
+                    <div class="directions">
+                        <h4>Инструкция:</h4>
+                        {{ recipe.directions | safe }}
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock content %}

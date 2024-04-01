@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <!-- ##### Three random recipes start ##### -->
+    <!-- ##### Three last posts start ##### -->
     <section class="hero-area">
         <div class="hero-slides owl-carousel">
             {% for post in latest_posts %}
@@ -16,7 +16,7 @@
                                 <div class="hero-slides-content" data-animation="fadeInUp" data-delay="200ms">
                                     <h2 data-animation="fadeInUp" data-delay="300ms">{{ post.title }}</h2>
                                     <p data-animation="fadeInUp" data-delay="700ms">{{ post.text|safe|slice:":250" }}...</p>
-                                    <a href="{{ post.get_absolute_url }}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">Читать полностью</a>
+                                    <a href="{{ post.get_absolute_url  }}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">Читать полностью</a>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
             {% endfor %}
         </div>
     </section>
-    <!-- ##### Three random recipes End ##### -->
+    <!-- ##### Three last posts End ##### -->
 
     <!-- ##### Two top recipes Start ##### -->
 <section class="top-catagory-area section-padding-80-0">
@@ -47,131 +47,41 @@
 </section>
     <!-- ##### Two top recipes End ##### -->
 
-    <!-- ##### Best Receipe Area Start ##### -->
-    <section class="best-receipe-area">
+    <!-- ##### 6 random recipes Start ##### -->
+        <section class="best-receipe-area">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="section-heading">
-                        <h3>Самые просматриваемые рецепты:</h3>
+                        <h3>случайные рецепты:</h3>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <!-- Single Best Receipe Area -->
+                {% for recipe in random_recipes %}
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-best-receipe-area mb-30">
-                        <img src="{% static 'img/bg-img/r1.jpg' %}" alt="">
+                        <img src="{{ recipe.get_image_url }}" alt="">
                         <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Sushi Easy Receipy</h5>
+                            <a href="{{ recipe.get_absolute_url }}">
+                                <h5>{{ recipe.title }}</h5>
                             </a>
+                            <p>{{ recipe.directions|safe|slice:":100" }}...</p>
                             <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                               {% for _ in '12345' %}
+                                    {% if forloop.counter <= recipe.rating %}
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    {% else %}
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
+                            <a href="{{ recipe.get_absolute_url }}" class="btn delicious-btn">Показать рецепт</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="{% static 'img/bg-img/r2.jpg' %}" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Homemade Burger</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="{% static 'img/bg-img/r3.jpg' %}" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Vegan Smoothie</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="{% static 'img/bg-img/r4.jpg' %}" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Calabasa soup</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="{% static 'img/bg-img/r5.jpg' %}" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Homemade Breakfast</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="{% static 'img/bg-img/r6.jpg' %}" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Healthy Fruit Desert</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

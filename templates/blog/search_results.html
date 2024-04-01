@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Результат поиска по запросу: "{{ query }}"</h3>
+
+    <h5>Заметки:</h5>
+    <ul>
+        {% for post in post_results %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        {% empty %}
+            <li>No posts found.</li>
+        {% endfor %}
+    </ul>
+    <h5>Рецепты:</h5>
+    <ul>
+        {% for recipe in recipe_results %}
+            <li><a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a></li>
+        {% empty %}
+            <li>No recipes found.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -9,8 +9,8 @@
         {% if recipe.image %}
         <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
         {% endif %}
-        <p>Ингредиенты: {{ recipe.ingredients }}</p>
-        <p>Описание: {{ recipe.directions }}</p>
+        <p>Ингредиенты: {{ recipe.ingredients | safe }}</p>
+        <p>Описание: {{ recipe.directions | safe }}</p>
         <p>Автор: {{ recipe.author }}</p>
         <a href="{% url 'recipe_detail' recipe.id %}">Подробнее</a>
     </li>

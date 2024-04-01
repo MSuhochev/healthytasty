@@ -3,16 +3,20 @@
 
 {% block content %}
 <h1>{{ recipe.name }}</h1>
-<img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
+<img src="{{ MEDIA_URL }}{{ recipe.get_image_url }}" alt="{{ recipe.name }}">
 <p>Ингредиенты: {{ recipe.ingredients }}</p>
 <p>Описание: {{ recipe.directions }}</p>
 
 <!-- Форма для комментариев -->
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Отправить комментарий</button>
-</form>
+{% if request.user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p | safe }}
+        <button type="submit">Отправить комментарий</button>
+    </form>
+{% else %}
+    <p>Оставлять комментарии могут только авторизованные пользователи.</p>
+{% endif %}
 
 <!-- Вывод всех комментариев -->
 <h2>Комментарии</h2>

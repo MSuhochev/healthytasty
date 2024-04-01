@@ -42,7 +42,12 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post_single', kwargs={'slug': self.category.slug, "post_slug": self.slug})
+        # Если у поста есть категория, используем slug категории в URL
+        if self.category:
+            return reverse('post_single', kwargs={'post_slug': self.slug, 'slug': self.category.slug})
+        # Если у поста нет категории, используем только slug поста в URL
+        else:
+            return reverse('post_single', kwargs={'post_slug': self.slug})
 
     def get_recipes(self):
         return self.recipes.all()
@@ -78,6 +83,15 @@ class Recipe(models.Model):
             self.image = self.post.image  # Используем изображение статьи, если оно есть
         super().save(*args, **kwargs)
 
+    def get_image_url(self):
+        if self.image and hasattr(self.image, 'url') and self.image.url:
+            return self.image.url
+        else:
+            return "/recipe_images/default_recipe_image.jpg"
+
+    def get_absolute_url(self):
+        return reverse('recipe_detail', kwargs={'pk': self.pk})
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE, default=None, null=True)
@@ -86,4 +100,4 @@ class Comment(models.Model):
     email = models.CharField(max_length=80)
     message = models.TextField(max_length=500)
     create_at = models.DateTimeField(default=timezone.now)
-    post = models.ForeignKey(Post, related_name="comment", on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name="post_comments", on_delete=models.CASCADE, default=None, null=True)

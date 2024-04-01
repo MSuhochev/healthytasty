@@ -1,8 +1,6 @@
 {% load static %}
 {% load menu_tags %}
 <ul>
-    <li class="active"><a href="/">Главная</a></li>
-
     <li><a href="#">Разделы сайта</a>
         <div class="megamenu">
             <ul class="single-mega cn-col-4">
@@ -26,9 +24,6 @@
     {% get_categories %}  {# Заметки, рецепты по категориям #}
 
     {% if can_share_recipe %}
-        <li><a href="{% url 'add_recipe' %}">Поделиться рецептом</a></li>
+        <li><a href="{% url 'add_recipe' %}">Добавить рецепт</a></li>
     {% endif %}
-
-    
-
 </ul>
