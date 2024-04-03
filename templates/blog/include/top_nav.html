@@ -24,6 +24,12 @@
     {% get_categories %}  {# Заметки, рецепты по категориям #}
 
     {% if can_share_recipe %}
-        <li><a href="{% url 'add_recipe' %}">Добавить рецепт</a></li>
+    <li class="dropdown">
+        <a href="">Стать автором</a>
+            <ul class="dropdown">
+                <li><a href="{% url 'add_post' %}">Добавить статью</a></li>
+                <li><a href="{% url 'add_recipe' %}">Добавить рецепт</a></li>
+            </ul>
+    </li>
     {% endif %}
 </ul>

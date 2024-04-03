@@ -7,9 +7,12 @@ from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.text import slugify
 from django.views import View
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
-from .forms import RecipeForm, CommentForm
+from unidecode import unidecode
+from .forms import RecipeForm, CommentForm, PostForm, RecipeInlineFormSet
 from blog.models import Post, Recipe, Comment, Category
 
 
@@ -111,6 +114,46 @@ class PostDetailView(DetailView):
             return self.render_to_response(context)
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_protect, name='dispatch')
+class AddPostWithRecipeView(View):
+    def get(self, request):
+        post_form = PostForm()
+        recipe_formset = RecipeInlineFormSet(instance=Post())
+        return render(request, 'blog/add_post.html', {'post_form': post_form, 'recipe_formset': recipe_formset})
+
+    def post(self, request):
+        post_form = PostForm(request.POST, request.FILES)
+        recipe_formset = RecipeInlineFormSet(request.POST, request.FILES, instance=Post())
+
+        if post_form.is_valid() and recipe_formset.is_valid():
+            post = post_form.save(commit=False)
+            post.author = request.user
+            # создаём slug поста и если такой slug уже есть добавляем к нему числовой индекс
+            slug_base = f"{slugify(unidecode(post.title))}-{post.category.pk}"
+            slug = slug_base
+            count = 1
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{slug_base}-{count}"
+                count += 1
+            post.slug = slug
+            post.save()
+            recipe_formset.instance = post
+            recipe_formset.save()
+
+            # Получаем категорию поста (это пример, замените на свой метод получения категории)
+            category_slug = post.category.slug
+
+            # Создаем URL для перенаправления
+            url = reverse('post_single', kwargs={'slug': category_slug, 'post_slug': post.slug})
+            # Перенаправляем пользователя на страницу с созданным постом
+            return redirect(url)
+
+        return render(
+            request, 'blog/add_post.html',
+            {'post_form': post_form, 'recipe_formset': recipe_formset}
+        )
+
 class AddRecipeView(View):
     """ Это представление AddRecipeView предназначено для добавления нового рецепта. """
 
@@ -194,7 +237,6 @@ class RecipeListView(ListView):
 
 
 class CommentHandlingMixin:
-    @staticmethod
     def handle_comment_submission(self, request, form, **kwargs):
         if form.is_valid():
             comment = form.save(commit=False)
@@ -255,7 +297,8 @@ class AddCommentToRecipeView(LoginRequiredMixin, CommentHandlingMixin, CreateVie
 
 
 class SearchView(View):
-    def post(self, request):
+    @staticmethod
+    def post(request):
         query = request.POST.get('search', None)
         if query:
             # Поиск по ингредиентам модели Recipe и названиям модели Post
@@ -283,5 +326,6 @@ class SearchView(View):
         else:
             return redirect(reverse('index'))
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         return render(request, 'blog/index.html')

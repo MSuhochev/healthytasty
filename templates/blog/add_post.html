@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <h1>Add Post with Recipe</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ post_form.as_p }}
+                {{ recipe_formset.management_form }}
+                {{ recipe_formset.non_form_errors }}
+                {% for form in recipe_formset.forms %}
+                    {{ form.as_p }}
+                {% endfor %}
+                <button type="submit">Submit</button>
+            </form>
+    </div>
+    <!-- Инициализация CKEditor для каждого текстового поля -->
+   <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        CKEDITOR.replace('id_text');
+        CKEDITOR.replace('id_ingredients');
+        CKEDITOR.replace('id_directions');
+    });
+</script>
+{% endblock content %}
