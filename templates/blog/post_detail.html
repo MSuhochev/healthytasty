@@ -192,5 +192,11 @@
         {% endfor %}
     </div>
 </div>
-
+<!-- Инициализация CKEditor для каждого текстового поля -->
+   <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        CKEDITOR.replace('id_message');
+    });
+</script>
 {% endblock content %}

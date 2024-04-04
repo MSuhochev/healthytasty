@@ -20,13 +20,15 @@
                     <!-- Single Blog Area -->
                     <div class="single-blog-area mb-80">
                         <!-- First tail -->
-                        <h6>{{ recipe.name }}</h6>
-                        {% if recipe.image %}
-                        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
-                        <!-- Post Date -->
+                        <h5>{{ recipe.name }}</h5>
+                        <div class="blog-thumbnail">
+                            {% if recipe.image %}
+                            <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
+                           <!-- Post Date -->
                             <div class="post-date">
                                 <a href="#"><span>{{ recipe.create_at|date:"d" }}</span>{{ recipe.create_at|date:"M" }}<br>{{ recipe.create_at|date:"Y" }}</a>
                             </div>
+                        </div>
                         {% endif %}
                     </div>
 
@@ -38,8 +40,10 @@
             <div class="col-8 col-lg-4">
                 <div class="blog-sidebar-area">
                       <!-- Widget -->
-                    <p>Ингредиенты: {{ recipe.ingredients | safe }}</p>
-                    <p>Описание: {{ recipe.directions | safe }}</p>
+                    <h6>Ингредиенты:</h6>
+                    <p>{{ recipe.ingredients | safe }}</p>
+                    <h6>Описание:</h6>
+                    <p>{{ recipe.directions | safe | slice:":88" }}...</p>
                     <p>Автор: {{ recipe.author }}</p>
                     <a href="{% url 'recipe_detail' recipe.id %}">Подробнее</a>
                 </div>

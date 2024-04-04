@@ -72,6 +72,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="recipes_added", on_delete=models.SET_NULL,
                                null=True)
     category = models.ForeignKey(Category, related_name="recipes", on_delete=models.SET_NULL, null=True)
+    create_at = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey(Post, related_name="recipes", on_delete=models.SET_NULL, null=True, blank=True)
     views = models.PositiveIntegerField(default=0)  # Поле для отслеживания просмотров
 

@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block content %}
-<h1>{{ recipe.name }}</h1>
+<h4>{{ recipe.name }}</h4>
 <img src="{{ MEDIA_URL }}{{ recipe.get_image_url }}" alt="{{ recipe.name }}">
-<p>Ингредиенты: {{ recipe.ingredients }}</p>
-<p>Описание: {{ recipe.directions }}</p>
+<p>Ингредиенты: {{ recipe.ingredients | safe }}</p>
+<p>Описание: {{ recipe.directions | safe }}</p>
 
 <!-- Форма для комментариев -->
 {% if request.user.is_authenticated %}
@@ -19,7 +19,7 @@
 {% endif %}
 
 <!-- Вывод всех комментариев -->
-<h2>Комментарии</h2>
+<h4>Комментарии</h4>
 <ul>
     {% if comments %}
       {% for comment in comments %}
@@ -29,4 +29,12 @@
       <li>Пока нет комментариев.</li>
     {% endif %}
   </ul>
+
+ <!-- Инициализация CKEditor для каждого текстового поля -->
+   <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        CKEDITOR.replace('id_message');
+    });
+</script>
 {% endblock content %}
