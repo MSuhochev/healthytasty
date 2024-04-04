@@ -12,7 +12,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p | safe }}
-        <button type="submit">Отправить комментарий</button>
+        <button class="btn delicious-btn mt-30" type="submit">Отправить комментарий</button>
     </form>
 {% else %}
     <p>Оставлять комментарии могут только авторизованные пользователи.</p>
@@ -21,8 +21,12 @@
 <!-- Вывод всех комментариев -->
 <h2>Комментарии</h2>
 <ul>
-    {% for comment in comments %}
+    {% if comments %}
+      {% for comment in comments %}
         <li>{{ comment.user }}: {{ comment.message }}</li>
-    {% endfor %}
-</ul>
+      {% endfor %}
+    {% else %}
+      <li>Пока нет комментариев.</li>
+    {% endif %}
+  </ul>
 {% endblock content %}

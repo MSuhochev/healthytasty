@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/breadcumb2.jpg' %});">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-text text-center">
+                    <h2>Контактная информация</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Blog Area Start ##### -->
+<div class="blog-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="blog-posts-area">
+                    <!-- Single Blog Area -->
+                    <div class="single-blog-area mb-80">
+                        <!-- Thumbnail -->
+                        <div class="contact-info">
+                            <ul class="text-black-30">
+                                <li><i class="fa fa-map-marker" aria-hidden="true"></i>Россия</li>
+                                <li><i class="fa fa-whatsapp" aria-hidden="true"></i> +79951941648</li>
+                                <li><i class="fa fa-envelope" aria-hidden="true"></i> example@example.com</li>
+                                <li><i class="fa fa-clock-o" aria-hidden="true"></i> Пн - Пт: 9:00 - 18:00</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+                <div class="blog-sidebar-area">
+                      <!-- Widget -->
+                    <div class="single-widget mb-80">
+                        <div class="quote-area text-center">
+                            <span>"</span>
+                            <h4>Любовь и голод правят миром.</h4>
+                            <p>Фридрих Шиллер</p>
+                            <div class="date-comments d-flex justify-content-between">
+                                <div class="date">Конец XVIII века</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Blog Area End ##### -->
+{% endblock content %}

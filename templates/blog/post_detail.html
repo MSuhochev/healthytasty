@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                {% for comment in post.post_comments.all %}
+                                                {% for comment in comments %}
                                                     <div class="comment">
                                                         <p>{{ comment.message }}</p>
                                                         <p>Автор: {{ comment.user.username }}</p>

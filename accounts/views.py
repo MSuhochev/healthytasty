@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse
@@ -15,6 +16,11 @@ def registration(request):
             user = form.save()
             login(request, user)
             return redirect('/accounts/login/')
+        else:
+            # Отображаем сообщения об ошибках в форме
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form = RegistrationForm()
 
@@ -27,12 +33,12 @@ def registration(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(data=request.POST)
+        form = CustomAuthenticationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = User.objects.filter(email=email).first()  # Получаем пользователя по email
-            if user is not None and user.check_password(password):
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
                 login(request, user)
                 print("User authenticated successfully")
                 return redirect('index')

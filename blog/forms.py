@@ -3,7 +3,7 @@ from django import forms
 from django.forms import inlineformset_factory
 from django.views import View
 
-from .models import Recipe, Comment, Post
+from .models import Recipe, Comment, Post, Subscriber, Tag
 
 
 class RecipeForm(forms.ModelForm):
@@ -40,14 +40,32 @@ class CommentForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(max_length=200, required=False, help_text='Введите теги через запятую.', label='Теги')
+    existing_tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label='Выбрать существующие теги'
+    )
+
     class Meta:
         model = Post
-        fields = ['title', 'image', 'text', 'category', 'tags']
+        fields = ['title', 'image', 'text', 'category', 'tags', 'existing_tags']
         widgets = {
             'author': forms.HiddenInput(),
-            'text': forms.Textarea(attrs={'rows': 4}),  # Customize text area widget as needed
+            'text': forms.Textarea(attrs={'rows': 4}),
         }
-        required = ['author']
+        labels = {
+            'title': 'Заголовок',
+            'image': 'Изображение',
+            'text': 'Текст',
+            'category': 'Выбрать категорию',
+        }
+
+    def clean_tags(self):
+        data = self.cleaned_data['tags']
+        tags = [tag.strip() for tag in data.split(',') if tag.strip()]
+        return tags
 
     def clean(self):
         cleaned_data = super().clean()
@@ -55,6 +73,13 @@ class PostForm(forms.ModelForm):
         if not image:
             cleaned_data['image'] = '/recipe_images/default_recipe_image.jpg'   # Дефолтная картинка
         return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if commit:
+            instance.save()
+            self.save_m2m()  # Сохраняем теги после сохранения экземпляра
+        return instance
 
 
 class RecipeInlineForm(forms.ModelForm):
@@ -67,8 +92,25 @@ class RecipeInlineForm(forms.ModelForm):
         }
 
 
-RecipeInlineFormSet = inlineformset_factory(Post, Recipe, fields=['name', 'serves', 'prep_time', 'cook_time', 'ingredients', 'directions', 'image', 'category'], extra=1)
+RecipeInlineFormSet = inlineformset_factory(
+    Post, Recipe,
+    fields=['name', 'serves', 'prep_time', 'cook_time', 'ingredients', 'directions', 'image', 'category'],
+    extra=1,
+    labels={
+        'name': 'Название',
+        'serves': 'Количество персон',
+        'prep_time': 'Время подготовки мин.',
+        'cook_time': 'Время приготовления мин.',
+        'ingredients': 'Ингредиенты',
+        'directions': 'Приготовление',
+        'image': 'Выбрать изображение',
+        'category': 'Выбрать категорию',
+    }
+)
 
 
-# In your view where you handle the form submission:
+class SubscriberForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ['email']
 

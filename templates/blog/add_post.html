@@ -3,16 +3,17 @@
 
 {% block content %}
     <div>
-        <h1>Add Post with Recipe</h1>
+        <h1>Добавить заметку</h1>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ post_form.as_p }}
                 {{ recipe_formset.management_form }}
+                <h4>Добавить рецепт к заметке</h4>
                 {{ recipe_formset.non_form_errors }}
                 {% for form in recipe_formset.forms %}
                     {{ form.as_p }}
                 {% endfor %}
-                <button type="submit">Submit</button>
+                <button class="btn delicious-btn mt-30" type="submit">Опубликовать</button>
             </form>
     </div>
     <!-- Инициализация CKEditor для каждого текстового поля -->

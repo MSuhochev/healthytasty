@@ -1,19 +1,71 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Рецепты категории "{{ category.name }}"</h1>
-<ul>
-    {% for recipe in recipes %}
-    <li>
-        <h2>{{ recipe.name }}</h2>
-        {% if recipe.image %}
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
-        {% endif %}
-        <p>Ингредиенты: {{ recipe.ingredients | safe }}</p>
-        <p>Описание: {{ recipe.directions | safe }}</p>
-        <p>Автор: {{ recipe.author }}</p>
-        <a href="{% url 'recipe_detail' recipe.id %}">Подробнее</a>
-    </li>
-    {% endfor %}
-</ul>
-{% endblock content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-12 text-center">
+            <h5>Рецепты категории "{{ category.name }}"</h5>
+        </div>
+    </div>
+</div>
+
+<!-- ##### Blog Area Start ##### -->
+<div class="blog-area section-padding-90">
+    <div class="container">
+        {% for recipe in recipes %}
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="blog-posts-area">
+                    <!-- Single Blog Area -->
+                    <div class="single-blog-area mb-80">
+                        <!-- First tail -->
+                        <h6>{{ recipe.name }}</h6>
+                        {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">
+                        <!-- Post Date -->
+                            <div class="post-date">
+                                <a href="#"><span>{{ recipe.create_at|date:"d" }}</span>{{ recipe.create_at|date:"M" }}<br>{{ recipe.create_at|date:"Y" }}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-8 col-lg-4">
+                <div class="blog-sidebar-area">
+                      <!-- Widget -->
+                    <p>Ингредиенты: {{ recipe.ingredients | safe }}</p>
+                    <p>Описание: {{ recipe.directions | safe }}</p>
+                    <p>Автор: {{ recipe.author }}</p>
+                    <a href="{% url 'recipe_detail' recipe.id %}">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- ##### Blog Area End ##### -->
+
+
+
+
+<!--<h5>Рецепты категории "{{ category.name }}"</h5>-->
+<!--<ul>-->
+<!--    {% for recipe in recipes %}-->
+<!--    <li>-->
+<!--        <h6>{{ recipe.name }}</h6>-->
+<!--        {% if recipe.image %}-->
+<!--        <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}">-->
+<!--        {% endif %}-->
+<!--        <p>Ингредиенты: {{ recipe.ingredients | safe }}</p>-->
+<!--        <p>Описание: {{ recipe.directions | safe }}</p>-->
+<!--        <p>Автор: {{ recipe.author }}</p>-->
+<!--        <a href="{% url 'recipe_detail' recipe.id %}">Подробнее</a>-->
+<!--    </li>-->
+<!--    {% endfor %}-->
+<!--</ul>-->
+<!--{% endblock content %}-->

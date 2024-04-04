@@ -2,13 +2,14 @@
 {% load static %}
 
 {% block content %}
+
 <!-- ##### Breadcumb Area Start ##### -->
 <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/breadcumb2.jpg' %});">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="breadcumb-text text-center">
-                    <h2>Заметки</h2>
+                    <h2>Все рецепты</h2>
                 </div>
             </div>
         </div>
@@ -25,24 +26,13 @@
                     <!-- Single Blog Area -->
                     <div class="single-blog-area mb-80">
                         <!-- Thumbnail -->
-                        {% for post in post_list %}
-                        <div class="blog-thumbnail">
-                            <img src="{{ post.image.url }}" alt="">
-                            <!-- Post Date -->
-                            <div class="post-date">
-                                <a href="#"><span>{{ post.create_at|date:"d" }}</span>{{ post.create_at|date:"M" }}<br>{{ post.create_at|date:"Y" }}</a>
+                        {% for recipe in all_recipes %}
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h2 class="card-title">{{ recipe.name }}</h2>
+                                <p class="card-text">{{ recipe.directions }}</p>
+                                <p class="card-text"><small class="text-muted">Автор: {{ recipe.author.username }}</small></p>
                             </div>
-                        </div>
-                        <!-- Content -->
-
-                        <div class="blog-content">
-
-                            <a href="{{ post.get_absolute_url }}" class="post-title">{{ post.title }}</a>
-                            <div class="meta-data"> Автор <a href="#"> {{ post.author }} </a> категория <a href="#"> {{ post.category }} </a>
-                            </div>
-                            <p>{{ post.text | safe | slice:":250" }}...</p>
-                            <a href="{{ post.get_absolute_url }}" class="btn delicious-btn mt-30">Читать далее...</a>
-
                         </div>
                         {% endfor %}
                     </div>
@@ -58,10 +48,21 @@
                     <div class="single-widget mb-80">
                         <div class="quote-area text-center">
                             <span>"</span>
-                            <h4>Пища столь же необходима для здоровья, сколь необходимо приличное обращение к человеку образованному.</h4>
-                            <p>Козьма Прутков</p>
+                            <h4>Между хорошим обедом и долгой жизнью только та разница, что за обедом сладкое подают в конце.</h4>
+                            <p>Роберт Льюис Стивенсон</p>
                             <div class="date-comments d-flex justify-content-between">
-                                <div class="date">XIX век</div>
+                                <div class="date">Конец XIX века</div>
+                            </div>
+                        </div>
+                    </div>
+                      <!-- Widget -->
+                    <div class="single-widget mb-80">
+                        <div class="quote-area text-center">
+                            <span>"</span>
+                            <h4>Аппетит приходит во время еды.</h4>
+                            <p>Франсуа Рабле</p>
+                            <div class="date-comments d-flex justify-content-between">
+                                <div class="date">XIV век</div>
                             </div>
                         </div>
                     </div>

@@ -5,12 +5,11 @@
         <div class="megamenu">
             <ul class="single-mega cn-col-4">
                 <li class="title">Категории</li>
-                <li><a href="">Главная</a></li>
-                <li><a href="about.html">О проекте</a></li>
-                <li><a href="post_list">Заметки о еде</a></li>
-                <li><a href="receipe-post.html">Рецепты</a></li>
-                <li><a href="contact.html">Контакты</a></li>
-                <li><a href="elements.html">Дополнение</a></li>
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li><a href="{% url 'all_posts_list' %}">Заметки о еде</a></li>
+                <li><a href="{% url 'all_recipes_list' %}">Рецепты</a></li>
+                <li><a href="{% url 'about' %}">О проекте</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
             </ul>
             <div class="single-mega cn-col-4">
                 <div class="receipe-slider owl-carousel">

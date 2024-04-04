@@ -1,6 +1,5 @@
 from ckeditor.fields import RichTextField
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -20,15 +19,14 @@ class Category(MPTTModel):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User, related_name="posts", on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="posts", on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='articles/', blank=True)
     text = RichTextField()
@@ -42,7 +40,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        # Если у поста есть категория, используем slug категории в URL
+
         if self.category:
             return reverse('post_single', kwargs={'post_slug': self.slug, 'slug': self.category.slug})
         # Если у поста нет категории, используем только slug поста в URL
@@ -52,11 +50,15 @@ class Post(models.Model):
     def get_recipes(self):
         return self.recipes.all()
 
-    def get_author(self):
-        return self.author
-
     def get_last_recipes(self):
         return self.recipes.last()
+
+    def get_rating(self):
+        # Рассчитываем рейтинг на основе просмотров и количества комментариев
+        total_views = self.views
+        total_comments = self.comments.count()  # количество комментариев
+        rating = (total_views + total_comments) / 2  # расчет рейтинга
+        return rating
 
 
 class Recipe(models.Model):
@@ -78,13 +80,13 @@ class Recipe(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.author and self.post:
-            self.author = self.post.get_author()
+            self.author = self.post.author
         if self.post:
             self.image = self.post.image  # Используем изображение статьи, если оно есть
         super().save(*args, **kwargs)
 
     def get_image_url(self):
-        if self.image and hasattr(self.image, 'url') and self.image.url:
+        if self.image:
             return self.image.url
         else:
             return "/recipe_images/default_recipe_image.jpg"
@@ -92,12 +94,27 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse('recipe_detail', kwargs={'pk': self.pk})
 
+    def get_rating(self):
+        # Рассчитываем рейтинг на основе просмотров и количества комментариев
+        total_views = self.views
+        total_comments = self.comments.count()  # подсчитываем количество комментариев
+        rating = (total_views + total_comments) / 2  # простой способ расчета рейтинга, можете выбрать свой
+        return rating
+
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE, default=None, null=True)
-    recipe = models.ForeignKey(Recipe, related_name="comments", on_delete=models.CASCADE, default=None, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="comments", on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=80)
     message = models.TextField(max_length=500)
     create_at = models.DateTimeField(default=timezone.now)
-    post = models.ForeignKey(Post, related_name="post_comments", on_delete=models.CASCADE, default=None, null=True)
+    post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE, null=True, blank=True)
+    recipe = models.ForeignKey(Recipe, related_name="comments", on_delete=models.CASCADE, null=True, blank=True)
+
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
