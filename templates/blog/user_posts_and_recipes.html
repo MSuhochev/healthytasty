@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/breadcumb2.jpg' %});">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-text text-center">
+                    <h2>Мои заметки и рецепты</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Blog Area Start ##### -->
+<div class="blog-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="blog-posts-area">
+                    <!-- Single Blog Area -->
+                    <div class="single-blog-area mb-80">
+                        <!-- Thumbnail -->
+                        {% for post in user_posts %}
+                            <div>
+                                <h5>{{ post.title }}</h5>
+                                <p>{{ post.content }}</p>
+                                <p>Дата добавления: {{ post.create_at }}</p>
+                                <a class="btn btn-success" href="{% url 'edit_post' post.id %}">Редактировать</a>
+                                <a class="btn btn-success" href="{% url 'delete_post' post.id %}">Удалить</a>
+                            </div>
+                        {% endfor %}
+                        {% for recipe in user_recipes %}
+                            <div>
+                                <h5>{{ recipe.name }}</h5>
+                                <p>{{ recipe.ingredients }}</p>
+                                <p>Дата добавления: {{ recipe.create_at }}</p>
+                                <a class="btn btn-success" href="{% url 'edit_recipe' recipe.id %}">Редактировать</a>
+                                <a class="btn btn-success" href="{% url 'delete_recipe' recipe.id %}">Удалить</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+                <div class="blog-sidebar-area">
+                      <!-- Widget -->
+                    <div class="single-widget mb-80">
+                        <div class="quote-area text-center">
+                            <span>"</span>
+                            <h4>Любовь и голод правят миром.</h4>
+                            <p>Фридрих Шиллер</p>
+                            <div class="date-comments d-flex justify-content-between">
+                                <div class="date">Конец XVIII века</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Blog Area End ##### -->
+{% endblock content %}

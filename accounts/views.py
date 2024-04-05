@@ -1,8 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.urls import reverse
-
+from django.contrib.auth import login, logout
 from .forms import RegistrationForm, CustomAuthenticationForm
 from django.contrib.auth import get_user_model
 
@@ -33,17 +31,12 @@ def registration(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request.POST)
+        form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
-                login(request, user)
-                print("User authenticated successfully")
-                return redirect('index')
-        else:
-            print("Form is not valid:", form.errors)
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, "Вы успешно вошли в систему.")
+            return redirect('index')
     else:
         form = CustomAuthenticationForm()
     context = {

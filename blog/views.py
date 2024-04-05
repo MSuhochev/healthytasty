@@ -362,6 +362,60 @@ class AddCommentToRecipeView(LoginRequiredMixin, CommentHandlingMixin, CreateVie
         return super().get(request, *args, **kwargs)
 
 
+# Блок представлений для редактирования/удаления материалов пользователя
+@login_required
+def user_posts_and_recipes(request):
+    user_posts = Post.objects.filter(author=request.user)
+    user_recipes = Recipe.objects.filter(author=request.user)
+    return render(request, 'blog/user_posts_and_recipes.html', {'user_posts': user_posts, 'user_recipes': user_recipes})
+
+
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        # Обработка формы редактирования поста
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('user_posts_and_recipes')
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/edit_or_delete.html', {'form': form, 'post': post})
+
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('user_posts_and_recipes')
+    return render(request, 'blog/edit_or_delete.html', {'post': post})
+
+
+@login_required
+def edit_recipe(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if request.method == 'POST':
+        # Обработка формы редактирования рецепта
+        form = RecipeForm(request.POST, instance=recipe)
+        if form.is_valid():
+            form.save()
+            return redirect('user_posts_and_recipes')
+    else:
+        form = RecipeForm(instance=recipe)
+    return render(request, 'blog/edit_or_delete.html', {'form': form, 'recipe': recipe})
+
+
+@login_required
+def delete_recipe(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if request.method == 'POST':
+        recipe.delete()
+        return redirect('user_posts_and_recipes')
+    return render(request, 'blog/edit_or_delete.html', {'recipe': recipe})
+
+
 class SearchView(View):
     @staticmethod
     def post(request):

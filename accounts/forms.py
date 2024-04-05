@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model, authenticate
 
 User = get_user_model()
@@ -41,11 +41,11 @@ class RegistrationForm(UserCreationForm):
         return email
 
 
-class CustomAuthenticationForm(forms.Form):
-    email = forms.EmailField(
-        label='Email',
-        max_length=254,
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Введите ваш email'}),
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(
+        label='Логин',
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите ваш логин'}),
     )
     password = forms.CharField(
         label='Пароль',
@@ -54,11 +54,12 @@ class CustomAuthenticationForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        email = cleaned_data.get('email')
+        username = cleaned_data.get('username')
         password = cleaned_data.get('password')
 
-        if email and password:
-            user = authenticate(email=email, password=password)
-            if not user:
-                raise forms.ValidationError("Неверный email или пароль.")
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user is None:
+                raise forms.ValidationError("Неверный логин или пароль.")
+
         return cleaned_data

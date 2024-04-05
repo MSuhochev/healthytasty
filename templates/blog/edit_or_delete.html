@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/breadcumb2.jpg' %});">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-text text-center">
+                    <h2>Управление материалом</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Blog Area Start ##### -->
+<div class="blog-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="blog-posts-area">
+                    <!-- Single Blog Area -->
+                    <div class="single-blog-area mb-80">
+                        <!-- Thumbnail -->
+                        <h5>{% if post %}Редактировать пост{% else %}Редактировать рецепт{% endif %}</h5>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn delicious-btn mt-30" type="submit">Сохранить изменения</button>
+                        </form>
+                        <form method="post" action="{% if post %}{% url 'delete_post' post.id %}{% else %}{% url 'delete_recipe' recipe.id %}{% endif %}">
+                            {% csrf_token %}
+                            <button class="btn delicious-btn mt-30" type="submit">Удалить</button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+                <div class="blog-sidebar-area">
+                      <!-- Widget -->
+                    <div class="single-widget mb-80">
+                        <div class="quote-area text-center">
+                            <span>"</span>
+                            <h4>Любовь и голод правят миром.</h4>
+                            <p>Фридрих Шиллер</p>
+                            <div class="date-comments d-flex justify-content-between">
+                                <div class="date">Конец XVIII века</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Blog Area End ##### -->
+{% endblock content %}
