@@ -118,7 +118,6 @@ class PostDetailView(DetailView):
             self.request.session.save()
         # Вызываем метод get_rating для отслеживания рейтинга поста
         obj.get_rating()
-        print(obj)
         return obj
 
     def get_context_data(self, **kwargs):
@@ -206,6 +205,9 @@ class AddRecipeView(View):
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.author = request.user
+            image = request.FILES.get('image')
+            if image:  # Проверяем, было ли загружено изображение
+                recipe.image = image
             recipe.save()
             return redirect('recipe_list', slug=recipe.category.slug)
         return render(request, 'blog/add_recipe.html', {'form': form})
